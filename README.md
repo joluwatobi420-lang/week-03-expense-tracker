@@ -1,30 +1,48 @@
-# AI-Powered Expense Tracker Telegram Bot 
-An automated personal finance assistant that extracts structured financial data from unstructured Telegram chat messages using LLMs and logs them directly to a Google Sheets database. It features dynamic mathematical reporting commands and a natural-language AI analytics engine.
+# AI-Powered Expense Tracker Bot
+
+An intelligent, conversational financial assistant built over Telegram. This project leverages Large Language Models (LLMs) to perform structured data extraction—transforming messy, natural language inputs into deterministic database rows in real time.
 ---
 
-## Project Demonstration
+## The Core Engineering Focus: NL → JSON
 
-- **Loom Video Walkthrough:** [Watch the Video Demo Here](YOUR_LOOM_VIDEO_LINK_HERE)- **Live Flow Preview:**
+The primary focus of this project isn't just the bot interface—it's the implementation of **structured data extraction**.
 
-![Expense Tracker Demo](demo.gif)
+
+Human Text: "1200 fuel at Sarco station"
+│
+▼ (Groq LLM Pipeline)
+JSON Schema: { "amount": 1200, "category": "Transport", 
+"description": "fuel at Sarco station" }
+│
+▼
+Google Sheets Database Row Updated
+
+By enforcing a strict JSON schema on unstructured human thoughts with zero user friction, this pipeline acts as a seamless bridge between raw user input and rigid production databases. 
+---
+## Code Architecture & Features
+
+The application is engineered modularly with a clear separation of concerns across dedicated runtime layers:
+
+- **`parse_expense(user_text)`**: The core AI Extraction Engine. Isolates the incoming string and orchestrates structural JSON schemas via Groq and Llama 3.1.
+- **`analyze_expenses(user_query)`**: The In-Context Analytics Engine. Pulls the live Google Sheet dataset, injects it directly into the LLM's context window as a structured payload, and evaluates ad-hoc tracking inquiries.
+- **`handle_message()`**: The central router that accurately intercepts chat intent to toggle between logging operations and data analysis.
+- **Custom Commands (`/start`, `/week`)**: Built-in macros to streamline user initialization and trigger instant 7-day digest summaries.
 
 ---
 
-## Features
+## Tech Stack
 
-- **Natural Language Parsing:** Send unstructured statements like `5000 fuel Sarco filling station` or `180000 ps5 banex plaza` and let the Groq LLM isolate transaction parameters automatically.- **Google Sheets Integration:** Seamlessly appends structured timestamps, amounts, currencies, categories, and merchants into a live spreadsheet.- **Analytical Commands:** - `/today` - Summarizes items logged during the current day.  - `/week` - Displays a category breakdown of expenses over the past 7 days.  - `/month` - Compiles a monthly summary with automated category percentage allocations.  - `/cat <category_name>` - Filters specific monthly categories.  - `/undo` - Deletes the last entry row instantly if a mistake occurs.- **Natural Language Queries:** Prepend a question with `?` (e.g., `? how much on fuel this month`) to unlock a conversational data analysis engine that evaluates your sheet data in real-time.- **Testing Guardrails:** Features a custom `--dry-run` utility flag to safely test LLM execution without adding mock rows into production records.
-
----
-
-## Technical Architecture
-
-- **Language:** Python 3.14- **Interface Pipeline:** `python-telegram-bot` (v20+)- **Inference Engine:** Groq API (`llama-3.1-8b-instant`)- **Database Connection:** Google Sheets & Google Drive APIs via `gspread` & `google-oauth2`
+- **Language:** Python-
+-  **LLM Orchestration:** Groq Cloud API (`llama-3.1-8b-instant`)
+-  **Interface:** `python-telegram-bot` wrapper
+-  **Database:** Google Sheets API v4
 
 ---
 
-## Installation & Local Setup
+## Setup & Installation
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/YOUR_GITHUB_USERNAME/week-03-expense-tracker.git](https://github.com/YOUR_GITHUB_USERNAME/week-03-expense-tracker.git)
+git clone [https://github.com/joluwatobi420-lang/week-03-expense-tracker.git](https://github.com/joluwatobi420-lang/week-03-expense-tracker.git)
+cd week-03-expense-trackerYOUR_GITHUB_USERNAME/week-03-expense-tracker.git)
 cd week-03-expense-tracker
