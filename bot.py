@@ -1,19 +1,18 @@
 import os
-import sys
 import json
+import pathlib import Path
+import dotenv import load_dotenv
 from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from groq import Groq
-from dotenv import load_dotenv
-
 from sheets_handler import append_to_sheet, get_filtered_expenses, delete_last_row, get_expenses_as_csv_string
 
-load_dotenv()
-
+env_path = Path(__file__).resolve().parent / '.env'
+load_dotenv(dotenv_path=env_path)
+4
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
 
 groq_client = Groq(api_key=GROQ_API_KEY)
 
